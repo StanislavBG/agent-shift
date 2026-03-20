@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import { loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
 import { formatSarif, formatJunit } from '../reporter/index.js';
+import { guard } from '@preflight/license';
 
 export interface CheckOptions {
   source: string;
@@ -51,6 +52,10 @@ export function runCheck(opts: CheckOptions): void {
   }
 
   const diff = diffSnapshots(sourceSnapshot, targetSnapshot);
+
+  if (opts.format === 'sarif' || opts.format === 'junit') {
+    guard('team', { feature: `--format ${opts.format}` });
+  }
 
   if (opts.format === 'sarif') {
     process.stdout.write(formatSarif(diff, 'agent-shift') + '\n');

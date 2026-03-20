@@ -3,6 +3,7 @@ import { loadConfig, resolveEnvironment } from '../config/index.js';
 import { createSnapshot, loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
 import { formatSarif, formatJunit } from '../reporter/index.js';
+import { guard } from '@preflight/license';
 import type { DiffEntry } from '../types/index.js';
 
 export interface DiffOptions {
@@ -38,6 +39,10 @@ export function runDiff(opts: DiffOptions): void {
   }
 
   const result = diffSnapshots(sourceSnapshot, targetSnapshot);
+
+  if (opts.format === 'sarif' || opts.format === 'junit') {
+    guard('team', { feature: `--format ${opts.format}` });
+  }
 
   if (opts.format === 'sarif') {
     process.stdout.write(formatSarif(result, 'agent-shift') + '\n');
