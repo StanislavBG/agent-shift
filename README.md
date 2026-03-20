@@ -1,5 +1,9 @@
 # agent-shift
 
+[![Part of Preflight](https://img.shields.io/badge/suite-Preflight-blue)](https://github.com/StanislavBG/agent-gate)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+
 > Agent config versioning with environment promotion and rollback. The deploy step in the Preflight AI agent pipeline.
 
 ```
@@ -103,10 +107,10 @@ environments:
 ```yaml
 # GitHub Actions example
 - name: Check agent config drift
-  run: npx agent-shift check staging production
+  run: agent-shift check staging production
 
 - name: Promote to production
-  run: npx agent-shift promote staging --to production --require-gate-pass gate-receipt.json
+  run: agent-shift promote staging --to production --require-gate-pass gate-receipt.json
 ```
 
 ## Preflight suite
