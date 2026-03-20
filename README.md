@@ -129,6 +129,35 @@ Install the full suite:
 npm install -g github:StanislavBG/agent-gate github:StanislavBG/stepproof github:StanislavBG/agent-comply github:StanislavBG/agent-shift
 ```
 
+## Structured reports (v0.2.0)
+
+agent-shift outputs machine-readable SARIF 2.1.0 and JUnit XML for CI pipeline integration.
+
+```bash
+# Check config drift and output SARIF
+agent-shift check staging production --format sarif
+agent-shift check staging production --format sarif > drift-check.sarif
+
+# Diff environments in JUnit XML
+agent-shift diff staging production --format junit
+```
+
+Integrate with GitHub Advanced Security:
+
+```yaml
+# .github/workflows/config-drift.yml
+- name: Check agent config drift
+  run: agent-shift check staging production --format sarif > drift-check.sarif
+
+- name: Upload to GitHub Security tab
+  uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: drift-check.sarif
+  if: always()
+```
+
+Config drift (model changes, guardrail differences) appears as code scanning alerts in your GitHub Security tab. Default output (no `--format` flag) is unchanged — human-readable terminal output.
+
 ## Contributing / build from source
 
 ```bash
