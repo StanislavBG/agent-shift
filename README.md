@@ -113,14 +113,21 @@ environments:
   run: agent-shift promote staging --to production --require-gate-pass gate-receipt.json
 ```
 
-## Preflight suite
+## Part of the Preflight suite
 
-| Tool | Role |
-|------|------|
-| [stepproof](https://github.com/StanislavBG/stepproof) | Regression testing |
-| [agent-comply](https://github.com/StanislavBG/agent-comply) | EU AI Act compliance |
-| [agent-gate](https://github.com/StanislavBG/agent-gate) | Unified readiness gate |
-| **agent-shift** | **Deploy safely** |
+agent-shift is one tool in a suite of AI agent pre-deploy checks:
+
+| Tool | Purpose | Install |
+|------|---------|---------|
+| **stepproof** | Behavioral regression testing | `npm install -g github:StanislavBG/stepproof` |
+| **agent-comply** | EU AI Act compliance scanning | `npm install -g github:StanislavBG/agent-comply` |
+| **agent-gate** | Unified pre-deploy CI gate | `npm install -g github:StanislavBG/agent-gate` |
+| **agent-shift** | Config versioning + environment promotion | `npm install -g github:StanislavBG/agent-shift` |
+
+Install the full suite:
+```bash
+npm install -g github:StanislavBG/agent-gate github:StanislavBG/stepproof github:StanislavBG/agent-comply github:StanislavBG/agent-shift
+```
 
 ## Contributing / build from source
 
