@@ -15,6 +15,11 @@ export interface DiffOptions {
 }
 
 export function runDiff(opts: DiffOptions): void {
+  // Gate paid formats immediately — before loading snapshots or config
+  if (opts.format === 'sarif' || opts.format === 'junit') {
+    guard('team', { feature: `--format ${opts.format}` });
+  }
+
   let agentConfig;
   try {
     agentConfig = loadConfig(opts.config);
@@ -39,10 +44,6 @@ export function runDiff(opts: DiffOptions): void {
   }
 
   const result = diffSnapshots(sourceSnapshot, targetSnapshot);
-
-  if (opts.format === 'sarif' || opts.format === 'junit') {
-    guard('team', { feature: `--format ${opts.format}` });
-  }
 
   if (opts.format === 'sarif') {
     process.stdout.write(formatSarif(result, 'agent-shift') + '\n');

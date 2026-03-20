@@ -22,6 +22,11 @@ export interface CheckResult {
 }
 
 export function runCheck(opts: CheckOptions): void {
+  // Gate paid formats immediately — before loading snapshots
+  if (opts.format === 'sarif' || opts.format === 'junit') {
+    guard('team', { feature: `--format ${opts.format}` });
+  }
+
   const sourceSnapshot = loadCurrentSnapshot(opts.source);
   const targetSnapshot = loadCurrentSnapshot(opts.target);
 
@@ -52,10 +57,6 @@ export function runCheck(opts: CheckOptions): void {
   }
 
   const diff = diffSnapshots(sourceSnapshot, targetSnapshot);
-
-  if (opts.format === 'sarif' || opts.format === 'junit') {
-    guard('team', { feature: `--format ${opts.format}` });
-  }
 
   if (opts.format === 'sarif') {
     process.stdout.write(formatSarif(diff, 'agent-shift') + '\n');
