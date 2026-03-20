@@ -1,0 +1,55 @@
+{
+  "name": "agent-shift",
+  "version": "0.1.0",
+  "description": "CLI-first agent config versioning with environment promotion and rollback. The deploy step in the Preflight AI agent pipeline.",
+  "type": "module",
+  "bin": {
+    "agent-shift": "dist/cli.js"
+  },
+  "main": "dist/cli.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "agent",
+    "config",
+    "versioning",
+    "deployment",
+    "promotion",
+    "rollback",
+    "cli",
+    "devops",
+    "llm",
+    "preflight"
+  ],
+  "author": "Bilko",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bilko/agent-shift"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
