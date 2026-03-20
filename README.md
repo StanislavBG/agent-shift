@@ -9,9 +9,8 @@ stepproof → agent-comply → agent-gate → agent-shift DEPLOY
 ## Install
 
 ```bash
-npm install -g agent-shift
-# or zero-install
-npx agent-shift --help
+# Install from GitHub (npm package coming soon)
+npm install -g github:StanislavBG/agent-shift
 ```
 
 ## What it does
@@ -114,15 +113,15 @@ environments:
 
 | Tool | Role |
 |------|------|
-| [stepproof](https://github.com/bilko/stepproof) | Regression testing |
-| [agent-comply](https://github.com/bilko/agent-comply) | EU AI Act compliance |
-| [agent-gate](https://github.com/bilko/agent-gate) | Unified readiness gate |
+| [stepproof](https://github.com/StanislavBG/stepproof) | Regression testing |
+| [agent-comply](https://github.com/StanislavBG/agent-comply) | EU AI Act compliance |
+| [agent-gate](https://github.com/StanislavBG/agent-gate) | Unified readiness gate |
 | **agent-shift** | **Deploy safely** |
 
 ## Contributing / build from source
 
 ```bash
-git clone https://github.com/bilko/agent-shift
+git clone https://github.com/StanislavBG/agent-shift
 cd agent-shift
 npm install
 npm run build   # compiles TypeScript to dist/
