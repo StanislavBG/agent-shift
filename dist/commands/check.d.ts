@@ -3,6 +3,7 @@ export interface CheckOptions {
     target: string;
     exitOnDrift?: boolean;
     json?: boolean;
+    format?: 'sarif' | 'junit';
 }
 export interface CheckResult {
     passed: boolean;

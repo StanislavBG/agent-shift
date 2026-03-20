@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import { loadConfig } from '../config/index.js';
 import { loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
+import { formatSarif, formatJunit } from '../reporter/index.js';
 export function runDiff(opts) {
     let agentConfig;
     try {
@@ -25,6 +26,14 @@ export function runDiff(opts) {
         process.exit(2);
     }
     const result = diffSnapshots(sourceSnapshot, targetSnapshot);
+    if (opts.format === 'sarif') {
+        process.stdout.write(formatSarif(result, 'agent-shift') + '\n');
+        process.exit(result.hasDrift ? 1 : 0);
+    }
+    if (opts.format === 'junit') {
+        process.stdout.write(formatJunit(result) + '\n');
+        process.exit(result.hasDrift ? 1 : 0);
+    }
     if (opts.json) {
         process.stdout.write(JSON.stringify(result, null, 2) + '\n');
         process.exit(result.hasDrift ? 1 : 0);

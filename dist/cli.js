@@ -36,8 +36,10 @@ program
     .description('Compare configs between two environments or snapshots')
     .option('--config <path>', 'Path to .agent-shift.yaml')
     .option('--json', 'Output result as JSON')
+    .option('--format <format>', 'Output format: sarif or junit')
     .action((source, target, opts) => {
-    runDiff({ source, target, ...opts });
+    const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
+    runDiff({ source, target, config: opts.config, json: opts.json, format });
 });
 // ── promote ───────────────────────────────────────────────────────────────────
 program
@@ -69,8 +71,10 @@ program
     .description('CI/CD gate: fail if config has drifted between environments')
     .option('--json', 'Output result as JSON')
     .option('--no-exit-on-drift', 'Exit 0 even on drift (report-only mode)')
+    .option('--format <format>', 'Output format: sarif or junit')
     .action((source, target, opts) => {
-    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift });
+    const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
+    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift, format });
 });
 program.parse();
 //# sourceMappingURL=cli.js.map

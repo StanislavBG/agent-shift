@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
+import { formatSarif, formatJunit } from '../reporter/index.js';
 export function runCheck(opts) {
     const sourceSnapshot = loadCurrentSnapshot(opts.source);
     const targetSnapshot = loadCurrentSnapshot(opts.target);
@@ -29,6 +30,18 @@ export function runCheck(opts) {
         process.exit(2);
     }
     const diff = diffSnapshots(sourceSnapshot, targetSnapshot);
+    if (opts.format === 'sarif') {
+        process.stdout.write(formatSarif(diff, 'agent-shift') + '\n');
+        if (diff.hasDrift && opts.exitOnDrift !== false)
+            process.exit(1);
+        return;
+    }
+    if (opts.format === 'junit') {
+        process.stdout.write(formatJunit(diff) + '\n');
+        if (diff.hasDrift && opts.exitOnDrift !== false)
+            process.exit(1);
+        return;
+    }
     const passed = !diff.hasDrift;
     const result = {
         passed,

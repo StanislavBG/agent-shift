@@ -41,8 +41,10 @@ program
   .description('Compare configs between two environments or snapshots')
   .option('--config <path>', 'Path to .agent-shift.yaml')
   .option('--json', 'Output result as JSON')
-  .action((source: string, target: string, opts: { config?: string; json?: boolean }) => {
-    runDiff({ source, target, ...opts });
+  .option('--format <format>', 'Output format: sarif or junit')
+  .action((source: string, target: string, opts: { config?: string; json?: boolean; format?: string }) => {
+    const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
+    runDiff({ source, target, config: opts.config, json: opts.json, format });
   });
 
 // ── promote ───────────────────────────────────────────────────────────────────
@@ -83,8 +85,10 @@ program
   .description('CI/CD gate: fail if config has drifted between environments')
   .option('--json', 'Output result as JSON')
   .option('--no-exit-on-drift', 'Exit 0 even on drift (report-only mode)')
-  .action((source: string, target: string, opts: { json?: boolean; exitOnDrift?: boolean }) => {
-    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift });
+  .option('--format <format>', 'Output format: sarif or junit')
+  .action((source: string, target: string, opts: { json?: boolean; exitOnDrift?: boolean; format?: string }) => {
+    const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
+    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift, format });
   });
 
 program.parse();
