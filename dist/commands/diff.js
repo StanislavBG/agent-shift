@@ -3,6 +3,7 @@ import { loadConfig } from '../config/index.js';
 import { loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
 import { formatSarif, formatJunit } from '../reporter/index.js';
+import { guard } from '@preflight/license';
 export function runDiff(opts) {
     let agentConfig;
     try {
@@ -26,6 +27,9 @@ export function runDiff(opts) {
         process.exit(2);
     }
     const result = diffSnapshots(sourceSnapshot, targetSnapshot);
+    if (opts.format === 'sarif' || opts.format === 'junit') {
+        guard('team', { feature: `--format ${opts.format}` });
+    }
     if (opts.format === 'sarif') {
         process.stdout.write(formatSarif(result, 'agent-shift') + '\n');
         process.exit(result.hasDrift ? 1 : 0);

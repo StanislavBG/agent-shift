@@ -10,7 +10,7 @@ const program = new Command();
 program
     .name('agent-shift')
     .description('Agent config versioning with environment promotion and rollback. The deploy step in the Preflight pipeline.')
-    .version('0.1.0');
+    .version('0.2.0');
 // ── init ──────────────────────────────────────────────────────────────────────
 program
     .command('init')
