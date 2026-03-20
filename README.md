@@ -123,10 +123,11 @@ agent-shift is one tool in a suite of AI agent pre-deploy checks:
 | **agent-comply** | EU AI Act compliance scanning | `npm install -g github:StanislavBG/agent-comply` |
 | **agent-gate** | Unified pre-deploy CI gate | `npm install -g github:StanislavBG/agent-gate` |
 | **agent-shift** | Config versioning + environment promotion | `npm install -g github:StanislavBG/agent-shift` |
+| **agent-trace** | Local observability — OTel traces in SQLite | `npm install -g github:StanislavBG/agent-trace` |
 
 Install the full suite:
 ```bash
-npm install -g github:StanislavBG/agent-gate github:StanislavBG/stepproof github:StanislavBG/agent-comply github:StanislavBG/agent-shift
+npm install -g github:StanislavBG/agent-gate github:StanislavBG/stepproof github:StanislavBG/agent-comply github:StanislavBG/agent-shift github:StanislavBG/agent-trace
 ```
 
 ## Structured reports (v0.2.0)
