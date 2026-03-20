@@ -119,6 +119,18 @@ environments:
 | [agent-gate](https://github.com/bilko/agent-gate) | Unified readiness gate |
 | **agent-shift** | **Deploy safely** |
 
+## Contributing / build from source
+
+```bash
+git clone https://github.com/bilko/agent-shift
+cd agent-shift
+npm install
+npm run build   # compiles TypeScript to dist/
+npm test        # 15 tests via vitest
+```
+
+The `dist/` directory is built at publish time via `prepublishOnly` — clone users must run `npm run build` before using the CLI locally.
+
 ## License
 
 MIT
