@@ -4,6 +4,10 @@ import { diffSnapshots } from '../snapshot/diff.js';
 import { formatSarif, formatJunit } from '../reporter/index.js';
 import { guard } from '@preflight/license';
 export function runCheck(opts) {
+    // Gate paid formats immediately — before loading snapshots
+    if (opts.format === 'sarif' || opts.format === 'junit') {
+        guard('team', { feature: `--format ${opts.format}` });
+    }
     const sourceSnapshot = loadCurrentSnapshot(opts.source);
     const targetSnapshot = loadCurrentSnapshot(opts.target);
     if (!sourceSnapshot) {
@@ -31,9 +35,6 @@ export function runCheck(opts) {
         process.exit(2);
     }
     const diff = diffSnapshots(sourceSnapshot, targetSnapshot);
-    if (opts.format === 'sarif' || opts.format === 'junit') {
-        guard('team', { feature: `--format ${opts.format}` });
-    }
     if (opts.format === 'sarif') {
         process.stdout.write(formatSarif(diff, 'agent-shift') + '\n');
         if (diff.hasDrift && opts.exitOnDrift !== false)
