@@ -1,6 +1,6 @@
 # agent-shift
 
-[![Part of Preflight](https://img.shields.io/badge/suite-Preflight-blue)](https://github.com/StanislavBG/agent-gate)
+[![Part of Preflight](https://img.shields.io/badge/suite-Preflight-blue)](https://www.npmjs.com/package/@bilkobibitkov/agent-gate)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
@@ -13,8 +13,7 @@ stepproof → agent-comply → agent-gate → agent-shift DEPLOY
 ## Install
 
 ```bash
-# Install from GitHub (npm package coming soon)
-npm install -g github:StanislavBG/agent-shift
+npm install -g agent-shift
 ```
 
 ## What it does
@@ -119,15 +118,15 @@ agent-shift is one tool in a suite of AI agent pre-deploy checks:
 
 | Tool | Purpose | Install |
 |------|---------|---------|
-| **stepproof** | Behavioral regression testing | `npm install -g github:StanislavBG/stepproof` |
-| **agent-comply** | EU AI Act compliance scanning | `npm install -g github:StanislavBG/agent-comply` |
-| **agent-gate** | Unified pre-deploy CI gate | `npm install -g github:StanislavBG/agent-gate` |
-| **agent-shift** | Config versioning + environment promotion | `npm install -g github:StanislavBG/agent-shift` |
-| **agent-trace** | Local observability — OTel traces in SQLite | `npm install -g github:StanislavBG/agent-trace` |
+| **stepproof** | Behavioral regression testing | `npm install -g stepproof` |
+| **agent-comply** | EU AI Act compliance scanning | `npm install -g agent-comply` |
+| **agent-gate** | Unified pre-deploy CI gate | `npm install -g @bilkobibitkov/agent-gate` |
+| **agent-shift** | Config versioning + environment promotion | `npm install -g agent-shift` |
+| **agent-trace** | Local observability — OTel traces in SQLite | `npm install -g agent-trace` |
 
 Install the full suite:
 ```bash
-npm install -g github:StanislavBG/agent-gate github:StanislavBG/stepproof github:StanislavBG/agent-comply github:StanislavBG/agent-shift github:StanislavBG/agent-trace
+npm install -g @bilkobibitkov/agent-gate stepproof agent-comply agent-shift agent-trace
 ```
 
 ## Structured reports (v0.2.0)
@@ -162,8 +161,12 @@ Config drift (model changes, guardrail differences) appears as code scanning ale
 ## Contributing / build from source
 
 ```bash
-git clone https://github.com/StanislavBG/agent-shift
-cd agent-shift
+npm install -g agent-shift
+```
+
+Or build from source:
+
+```bash
 npm install
 npm run build   # compiles TypeScript to dist/
 npm test        # 15 tests via vitest
