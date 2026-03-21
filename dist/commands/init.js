@@ -21,5 +21,6 @@ export function runInit(opts) {
     console.log(`  ${chalk.dim('4.')} Run: ${chalk.cyan('agent-shift snapshot --env production')}`);
     console.log(`  ${chalk.dim('5.')} Check drift: ${chalk.cyan('agent-shift diff staging production')}`);
     console.log('');
+    console.log(`  In a Preflight pipeline? Wire this into your CI gate: ${chalk.cyan('npx agent-gate init')}`);
 }
 //# sourceMappingURL=init.js.map
