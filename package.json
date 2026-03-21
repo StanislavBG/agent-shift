@@ -16,7 +16,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [
     "ai",
@@ -44,7 +45,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@preflight/license": "file:../preflight-license",
+    "@preflight/license": "^1.0.0",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "js-yaml": "^4.1.0"

@@ -37,9 +37,10 @@ program
     .option('--config <path>', 'Path to .agent-shift.yaml')
     .option('--json', 'Output result as JSON')
     .option('--format <format>', 'Output format: sarif or junit')
+    .option('--output <file>', 'Write format output to file instead of stdout')
     .action((source, target, opts) => {
     const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
-    runDiff({ source, target, config: opts.config, json: opts.json, format });
+    runDiff({ source, target, config: opts.config, json: opts.json, format, output: opts.output });
 });
 // ── promote ───────────────────────────────────────────────────────────────────
 program
@@ -72,9 +73,10 @@ program
     .option('--json', 'Output result as JSON')
     .option('--no-exit-on-drift', 'Exit 0 even on drift (report-only mode)')
     .option('--format <format>', 'Output format: sarif or junit')
+    .option('--output <file>', 'Write format output to file instead of stdout')
     .action((source, target, opts) => {
     const format = opts.format === 'sarif' || opts.format === 'junit' ? opts.format : undefined;
-    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift, format });
+    runCheck({ source, target, json: opts.json, exitOnDrift: opts.exitOnDrift, format, output: opts.output });
 });
 program.parse();
 //# sourceMappingURL=cli.js.map

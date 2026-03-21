@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import { writeFileSync } from 'fs';
+import { resolve } from 'path';
 import { loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
 import { formatSarif, formatJunit } from '../reporter/index.js';
@@ -35,14 +37,14 @@ export function runCheck(opts) {
         process.exit(2);
     }
     const diff = diffSnapshots(sourceSnapshot, targetSnapshot);
-    if (opts.format === 'sarif') {
-        process.stdout.write(formatSarif(diff, 'agent-shift') + '\n');
-        if (diff.hasDrift && opts.exitOnDrift !== false)
-            process.exit(1);
-        return;
-    }
-    if (opts.format === 'junit') {
-        process.stdout.write(formatJunit(diff) + '\n');
+    if (opts.format === 'sarif' || opts.format === 'junit') {
+        const formatted = opts.format === 'sarif' ? formatSarif(diff, 'agent-shift') : formatJunit(diff);
+        if (opts.output) {
+            writeFileSync(resolve(opts.output), formatted, 'utf-8');
+        }
+        else {
+            process.stdout.write(formatted + '\n');
+        }
         if (diff.hasDrift && opts.exitOnDrift !== false)
             process.exit(1);
         return;
