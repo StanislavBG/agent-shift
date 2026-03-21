@@ -1,4 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
+import { writeFileSync, readFileSync, unlinkSync, existsSync } from 'fs';
+import { resolve } from 'path';
+import os from 'os';
 import { formatSarif, formatJunit } from '../../src/reporter/index.js';
 import type { DiffResult } from '../../src/types/index.js';
 
@@ -229,5 +232,33 @@ describe('formatJunit()', () => {
   it('tests attribute matches number of testcases for drift result', () => {
     const output = formatJunit(WITH_DRIFT);
     expect(output).toContain('tests="4"');
+  });
+});
+
+// ── --output <file> behavior ──────────────────────────────────────────────────
+
+describe('--output file writing', () => {
+  const tmpFile = resolve(os.tmpdir(), `agent-shift-test-${Date.now()}.sarif`);
+
+  afterEach(() => {
+    if (existsSync(tmpFile)) unlinkSync(tmpFile);
+  });
+
+  it('formatSarif output can be written to a file and read back as valid SARIF', () => {
+    const sarif = formatSarif(WITH_DRIFT, 'agent-shift');
+    writeFileSync(tmpFile, sarif, 'utf-8');
+    const contents = readFileSync(tmpFile, 'utf-8');
+    const parsed = JSON.parse(contents);
+    expect(parsed.version).toBe('2.1.0');
+    expect(parsed.runs[0].tool.driver.name).toBe('agent-shift');
+  });
+
+  it('formatJunit output can be written to a file and read back as valid XML', () => {
+    const xml = formatJunit(WITH_DRIFT);
+    writeFileSync(tmpFile, xml, 'utf-8');
+    const contents = readFileSync(tmpFile, 'utf-8');
+    expect(contents).toContain('<?xml version="1.0" encoding="UTF-8"?>');
+    expect(contents).toContain('<testsuites');
+    expect(contents).toContain('name="agent-shift"');
   });
 });

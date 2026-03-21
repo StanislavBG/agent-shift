@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import { writeFileSync } from 'fs';
+import { resolve } from 'path';
 import { loadConfig, resolveEnvironment } from '../config/index.js';
 import { createSnapshot, loadCurrentSnapshot } from '../snapshot/index.js';
 import { diffSnapshots } from '../snapshot/diff.js';
@@ -12,6 +14,7 @@ export interface DiffOptions {
   config?: string;
   json?: boolean;
   format?: 'sarif' | 'junit';
+  output?: string;
 }
 
 export function runDiff(opts: DiffOptions): void {
@@ -45,13 +48,13 @@ export function runDiff(opts: DiffOptions): void {
 
   const result = diffSnapshots(sourceSnapshot, targetSnapshot);
 
-  if (opts.format === 'sarif') {
-    process.stdout.write(formatSarif(result, 'agent-shift') + '\n');
-    process.exit(result.hasDrift ? 1 : 0);
-  }
-
-  if (opts.format === 'junit') {
-    process.stdout.write(formatJunit(result) + '\n');
+  if (opts.format === 'sarif' || opts.format === 'junit') {
+    const formatted = opts.format === 'sarif' ? formatSarif(result, 'agent-shift') : formatJunit(result);
+    if (opts.output) {
+      writeFileSync(resolve(opts.output), formatted, 'utf-8');
+    } else {
+      process.stdout.write(formatted + '\n');
+    }
     process.exit(result.hasDrift ? 1 : 0);
   }
 

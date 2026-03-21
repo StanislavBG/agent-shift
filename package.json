@@ -35,7 +35,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/StanislavBG/agent-shift"
+    "url": "git+https://github.com/StanislavBG/agent-shift.git"
   },
   "publishConfig": {
     "access": "public"
