@@ -12,7 +12,14 @@ const program = new Command();
 program
   .name('agent-shift')
   .description('Agent config versioning with environment promotion and rollback. The deploy step in the Preflight pipeline.')
-  .version('0.2.0');
+  .version('0.2.0')
+  .addHelpText('after', `
+Examples:
+  agent-shift init                            scaffold .agent-shift.yaml
+  agent-shift snapshot --env staging          capture current staging config
+  agent-shift diff staging production         compare two environments
+  agent-shift check staging production        CI gate: exit 1 if config drifted
+  agent-shift promote staging --to production promote after a gate pass`);
 
 // ── init ──────────────────────────────────────────────────────────────────────
 program
